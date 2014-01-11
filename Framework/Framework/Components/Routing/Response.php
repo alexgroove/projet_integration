@@ -160,6 +160,7 @@ class Response implements IResponse {
 		header('HTTP/1.1 '. $this->http_code);
 		header('Content-Type: '.$this->content_type);
     header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + 2592000));
+    header('Vary: Accept-Encoding');
 		if (isset($this->filename)) {
 			header('Content-Disposition: inline; filename="'.$this->filename.'"');
 		}    

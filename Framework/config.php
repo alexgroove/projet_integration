@@ -32,7 +32,7 @@ define('ENVIRONMENT', TEST_PRODUCTION);
 define('HOST', 'localhost');
 define('USER', 'root');
 define('PASSWORD', 'root');
-define('DATABASE', 'framework');
+define('DATABASE', 'NAME_OF_YOUR_DATABASE');
 
 
 

@@ -19,6 +19,33 @@ class Request implements IRequest {
 
 	/**
 	 *
+	 * @constant DASH_STRING_URL_REGEX
+	 * This constant is the regular expression that replace the :string route wildcard
+	 *
+	 */
+	const DASH_STRING_URL_REGEX = '/\/[A-Z]([a-zA-Z]*-?[a-zA-Z]*)*\/?/';
+
+
+	/**
+	 *
+	 * @constant DASH_PARAM_REGEX
+	 * This constant is the regular expression that check if a param match the :string wildcard
+	 *
+	 */
+	const DASH_PARAM_REGEX = '/^[A-Z]([a-zA-Z]*-[a-zA-Z]*)*/';
+
+
+	/**
+	 *
+	 * @constant DASH_STRING_URL_REGEX
+	 * This constant is the regular expression that replace the :id route wildcard
+	 *
+	 */	
+	const NUMERIC_PARAM = '/\/[0-9]+\/?/';
+
+
+	/**
+	 *
 	 * @var $method
 	 * @access public
 	 *
@@ -58,8 +85,11 @@ class Request implements IRequest {
 		foreach($params as $param) {
 			// Accumulate params when the value is numeric
 			// Need to change that behavior to accept text parameter
-			if (is_numeric($param)) {
-				$this->params[] = $param;
+			switch(true) {
+				case (is_numeric($param)) : 
+				case (preg_match(self::DASH_PARAM_REGEX, $param) ? true : false) :
+					$this->params[] = $param;
+					break;
 			}
 		}
 	}
@@ -75,6 +105,11 @@ class Request implements IRequest {
 	 *
 	 */	 
 	public function getGenericRequest () {
-		return rtrim(preg_replace("/\/[0-9]+\/?/", "/:id/", $this->request), '/');
+		$result = preg_replace(self::NUMERIC_PARAM, "/:id/", $this->request);
+		$result = preg_replace(self::DASH_STRING_URL_REGEX, '/:string/', $result);
+		return rtrim($result, '/');
 	}
 }
+
+
+

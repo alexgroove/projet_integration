@@ -48,14 +48,6 @@ class View implements IView {
 
 	/**
 	 *
-	 * @var $cache_file_name
-	 * @access private
-	 *
-	 */
-	private $cache_file_name;
-
-	/**
-	 *
 	 * View Conctructor
 	 * This constructor instanciate the XML package, instanciate the XSLTProcessor
 	 * and register the PHP functions to the processor.
@@ -81,9 +73,6 @@ class View implements IView {
 	public function bind ($name='', $data=array()) {
 		if (!is_string($name) || empty($name)) {
 			throw new CannotBindDataWithNoNameException();
-		}
-		if (!is_array($data)) {
-			throw new WrongDataFormatException();
 		}
 		$this->package->add($name, (array)$data);
 	}
